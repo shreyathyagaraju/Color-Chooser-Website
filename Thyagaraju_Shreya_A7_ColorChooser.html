@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    
+    <title>Color Chooser</title>
+    <style>
+        body { 
+            background-color:    #000; 
+            font-family:        monospace;
+        }
+        
+        .range {
+            color:              white;
+            margin:             0 auto;
+            font-size:          36px;
+            text-shadow:        2px 2px 2px #000000;
+        }
+
+        input[type=range] {
+            width:              260px;
+        }
+
+        .roundedShadow {
+            border-radius:      10px;
+            border:             3px solid white;
+            box-shadow:         2px 2px 2px #000000;
+        }
+
+        span                    { padding: 5px 16px 5px 16px; }
+
+        .center { 
+            text-align:         center; 
+            margin:             auto;
+        }
+        
+        div                     { padding-top:        24px;     }
+        #rControlId span        { background-color: red;    }
+        #gControlId span        { background-color: green;  }
+        #bControlId span        { background-color: blue;   }
+
+        table {
+            background-color:   #000000;
+            color:              #999;
+            font-size:          32px;
+            text-align:         center;
+            padding:            5px;
+            width:              480px;
+        }
+
+        th                      { font-family:  sans-serif; }
+        td                      { font-family:  monospace;  }
+
+    </style>
+    <script>
+        "use strict";
+
+        let rRangeValue = 255; // Set initial values to maximum
+        let gRangeValue = 255;
+        let bRangeValue = 255;
+
+        window.onload = function() {
+            updateDisplay('rValueId', rRangeValue);
+            updateDisplay('gValueId', gRangeValue);
+            updateDisplay('bValueId', bRangeValue);
+        };
+
+        function updateDisplay(label, value) {
+            let labelString         = ""; // 3 digit padded color label
+            let rgbHexStyleString   = ""; // #RRGGBB string for background
+            let rgbIntStyleString   = ""; // rgb(r, g, b) string for background
+            let rgbPctStyleString   = ""; // rgb(r%, g%, b%)
+
+            switch(label) {
+                case 'rValueId':
+                    rRangeValue = value;
+                    break;
+                case 'gValueId':
+                    gRangeValue = value;
+                    break;
+                case 'bValueId':
+                    bRangeValue = value;
+                    break;              
+            }
+
+            labelString = zeroPadString(value, 10, 3);
+            document.getElementById(label).innerHTML = labelString;
+
+            updateBackgroundColor();
+
+            function updateBackgroundColor() {
+                rgbIntStyleString = `rgb(${rRangeValue}, ${gRangeValue}, ${bRangeValue})`;
+                rgbPctStyleString = `rgb(${Math.round((rRangeValue / 255) * 100)}%, ${Math.round((gRangeValue / 255) * 100)}%, ${Math.round((bRangeValue / 255) * 100)}%)`;
+                document.getElementById('rgbIntValueId').innerHTML = rgbIntStyleString;
+                document.getElementById('rgbPctValueId').innerHTML = rgbPctStyleString;
+            }
+
+            // create #RRGGBB
+            rgbHexStyleString = "#" +
+                zeroPadString(rRangeValue, 16, 2) +
+                zeroPadString(gRangeValue, 16, 2) +
+                zeroPadString(bRangeValue, 16, 2);
+
+            document.body.style.backgroundColor = rgbHexStyleString;
+            document.getElementById('rgbHexValueId').innerHTML = rgbHexStyleString;
+        }
+
+        // zeroPadString(50, 10, 4) returns "0050"
+        // zeroPadString(255, 16, 5) returns "000FF"
+        function zeroPadString(num, base, length) {
+            const pad = "0";
+
+            let zeroPadString = Number(num).toString(base).toUpperCase();
+            while (zeroPadString.length < length) {
+                zeroPadString = pad + zeroPadString;
+            }
+            return zeroPadString;
+        }
+
+    </script>
+</head>
+<body>
+
+    <table class="roundedShadow center">
+        <tr>
+            <th>CSS Color Value</th>
+        </tr>
+        <tr>
+            <td id="rgbHexValueId">#FFFFFF</td>
+        </tr>
+        <tr>
+            <td id="rgbIntValueId">rgb(255, 255, 255)</td>
+        </tr>
+        <tr>
+            <td id="rgbPctValueId">rgb(100%, 100%, 100%)</td>
+        </tr>
+    </table>
+
+    <div  id="rControlId" class="range center">
+        <span class="roundedShadow">R</span>
+        <input  
+            id="rRangeId" type="range" min="0" max="255" value="255" 
+            oninput="updateDisplay('rValueId', this.value)">
+        <span id="rValueId" class="roundedShadow">255</span>
+    </div>
+        
+    <div id="gControlId" class="range center">
+        <span class="roundedShadow">G</span>
+        <input  
+            id="gRangeId" type="range" min="0" max="255" value="255" 
+            oninput="updateDisplay('gValueId', this.value)">
+        <span id="gValueId" class="roundedShadow">255</span>
+    </div>
+    
+    <div id="bControlId" class="range center">
+        <span class="roundedShadow">B</span>
+        <input  
+            id="bRangeId" type="range" min="0" max="255" value="255" 
+            oninput="updateDisplay('bValueId', this.value)">
+        <span id="bValueId" class="roundedShadow">255</span>
+    </div>
+
+</body>
+</html>
