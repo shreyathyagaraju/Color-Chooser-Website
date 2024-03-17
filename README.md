@@ -22,4 +22,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - This project is inspired by various online color picker tools and tutorials.
-- Special thanks to [Dan Mazzola](https://github.com/djmazzola) and ABOR for the initial template.
+- Special thanks to [Dan Mazzola] and ABOR for the initial template.
